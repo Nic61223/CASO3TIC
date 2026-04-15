@@ -22,7 +22,8 @@ public class Broker extends Thread {
                 Thread.yield();
             }
         } catch (Exception e) {
-            System.err.println("e");
+            System.err.println("Error en Broker: " + e.getMessage());
+            e.printStackTrace();
         } finally {
             buzonAnomalos.finalizarProduccion();
         }
@@ -36,10 +37,10 @@ public class Broker extends Thread {
         this.eventos_normales = eventos_normales;
     }
 
-    public void procesarEvento(Evento evento) {
+    public synchronized void procesarEvento(Evento evento) {
         if (evento.isEs_anomalo()) {
             eventos_anomalos.add(evento);
-            buzonAnomalos.producir(this, evento);
+            buzonAnomalos.producir(evento);
         } else {
             eventos_normales.add(evento);
         }

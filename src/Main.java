@@ -42,8 +42,6 @@ public class Main {
             broker.join();
             administrador.join();
             System.out.println("\n=== Simulacion completada ===");
-            System.out.println("Total de eventos procesados: "
-                    + (broker.eventos_normales.size() + broker.eventos_anomalos.size()));
             System.out.println("Total de anomalias gestionadas por Administrador: "
                     + administrador.totalAnomaliasGestionadas());
         } catch (InterruptedException e) {

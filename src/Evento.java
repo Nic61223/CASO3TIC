@@ -5,7 +5,7 @@ public class Evento {
     public boolean es_anomalo;
     public int tipo_destino;
 
-    public Evento(MonitorSensores monitor, String identificador, int rand_num) {
+    public Evento(String identificador, int rand_num) {
         this.identificador = identificador;
         this.es_anomalo = false;
         this.tipo_destino = rand_num;

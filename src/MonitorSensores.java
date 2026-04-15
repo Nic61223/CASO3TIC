@@ -34,8 +34,11 @@ public class MonitorSensores {
                 Thread.yield();
                 continue;
             }
-            broker.procesarEvento(evento);
 
+            int n = RandomGenerator.getDefault().nextInt(0, 201);
+            evento.setEs_anomalo(n % 8 == 0);
+
+            broker.procesarEvento(evento);
             return true;
         }
     }
@@ -45,7 +48,7 @@ public class MonitorSensores {
             return false;
         }
         int rand_num = RandomGenerator.getDefault().nextInt(1, ns + 1);
-        Evento evento = new Evento(this, sensor.getIdentificador() + "-" + generados, rand_num);
+        Evento evento = new Evento(sensor.getIdentificador() + "-" + generados, rand_num);
         sensor.setFaltan(sensor.faltan - 1);
         sensor.num_eventos++;
         generados++;

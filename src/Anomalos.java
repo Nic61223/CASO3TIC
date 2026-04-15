@@ -5,17 +5,14 @@ public class Anomalos {
 
     private final ArrayList<Evento> cola;
     private boolean produccionFinalizada;
-    public ArrayList<Evento> eventosGestionados;
 
     public Anomalos() {
         this.cola = new ArrayList<>();
         this.produccionFinalizada = false;
-        this.eventosGestionados = new ArrayList<>();
     }
 
-    public synchronized void producir(Broker broker, Evento evento) {
+    public synchronized void producir(Evento evento) {
         cola.add(evento);
-        Thread.yield();
 
     }
 
@@ -45,23 +42,4 @@ public class Anomalos {
         return produccionFinalizada;
     }
 
-    public synchronized void reevaluar(Evento evento) {
-        eventosGestionados.add(evento);
-    }
-
-    public ArrayList<Evento> getEventosGestionados() {
-        return eventosGestionados;
-    }
-
-    public synchronized Evento sacarReevaluado() {
-        if (eventosGestionados.isEmpty()) {
-            return null;
-        }
-        return eventosGestionados.remove(0);
-    }
-
-    public synchronized void recibirReevaluado(Evento evento) {
-        eventosGestionados.add(evento);
-        System.out.println("Broker recibio evento reevaluado como normal: " + evento.identificador);
-    }
 }
