@@ -15,18 +15,11 @@ public class Sensor extends Thread {
 
     @Override
     public void run() {
-        try {
-
-            while (faltan > 0) {
-
-                if (faltan == 0) {
-                    break;
-                }
-                monitor.producir(this);
+        while (faltan > 0) {
+            if (!monitor.producir(this)) {
+                break;
             }
-
-        } catch (Exception e) {
-            System.err.println("e");
+            Thread.yield();
         }
     }
 

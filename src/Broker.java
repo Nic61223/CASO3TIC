@@ -9,22 +9,15 @@ public class Broker extends Thread {
 
     public Broker(MonitorSensores monitor) {
         this.monitor = monitor;
-        this.eventos_normales = new ArrayList();
-        this.eventos_anomalos = new ArrayList();
+        this.eventos_normales = new ArrayList<>();
+        this.eventos_anomalos = new ArrayList<>();
     }
 
     @Override
     public void run() {
         try {
-
-            while (true) {
-                if (monitor.total_eventos == monitor.procesados) {
-                    break;
-                }
-                monitor.consumir(this);
-
+            while (monitor.consumir(this)) {
             }
-
         } catch (Exception e) {
             System.err.println("e");
         }
