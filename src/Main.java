@@ -20,8 +20,10 @@ public class Main {
         System.out.println("Esperando un total de " + totalEventosEsperados + " eventos.\n");
 
         MonitorSensores monitor = new MonitorSensores(buzonEntrada, ns, totalEventosEsperados);
-
-        Broker broker = new Broker(monitor);
+        Anomalos buzonAnomalos = new Anomalos();
+        Broker broker = new Broker(monitor, buzonAnomalos);
+        Administrador administrador = new Administrador(buzonAnomalos, broker);
+        administrador.start();
         broker.start();
 
         ArrayList<Sensor> sensores = new ArrayList<>();
@@ -34,13 +36,16 @@ public class Main {
         System.out.println("Hilos lanzados exitosamente...");
 
         try {
-            broker.join();
             for (Sensor sensor : sensores) {
                 sensor.join();
             }
+            broker.join();
+            administrador.join();
             System.out.println("\n=== Simulacion completada ===");
             System.out.println("Total de eventos procesados: "
                     + (broker.eventos_normales.size() + broker.eventos_anomalos.size()));
+            System.out.println("Total de anomalias gestionadas por Administrador: "
+                    + administrador.totalAnomaliasGestionadas());
         } catch (InterruptedException e) {
             System.err.println("Error esperando al Broker: " + e.getMessage());
             Thread.currentThread().interrupt();

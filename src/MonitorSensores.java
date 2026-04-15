@@ -25,7 +25,7 @@ public class MonitorSensores {
                     return false;
                 }
                 if (!buzon.getEventos().isEmpty()) {
-                    evento = buzon.getEventos().removeFirst();
+                    evento = buzon.getEventos().remove(0);
                     procesados++;
                 }
             }
@@ -34,14 +34,8 @@ public class MonitorSensores {
                 Thread.yield();
                 continue;
             }
-
-            int min = 0;
-            int max = 200;
-            int n = (int) (Math.random() * (max - min + 1)) + min;
-            if (n % 8 == 0) {
-                evento.setEs_anomalo(true);
-            }
             broker.procesarEvento(evento);
+
             return true;
         }
     }
@@ -50,8 +44,8 @@ public class MonitorSensores {
         if (generados >= total_eventos) {
             return false;
         }
-        int rand_num = RandomGenerator.getDefault().nextInt(1, ns);
-        Evento evento = new Evento(this, sensor.getIdentificador() + "-" + sensor.getNum_eventos(), rand_num);
+        int rand_num = RandomGenerator.getDefault().nextInt(1, ns + 1);
+        Evento evento = new Evento(this, sensor.getIdentificador() + "-" + generados, rand_num);
         sensor.setFaltan(sensor.faltan - 1);
         sensor.num_eventos++;
         generados++;

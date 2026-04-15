@@ -3,12 +3,12 @@ public class Evento {
 
     public String identificador;
     public boolean es_anomalo;
-    public int num_aleatoreo;
+    public int tipo_destino;
 
-    public Evento(MonitorSensores monitor, String identificador, int num_aleaoreo) {
+    public Evento(MonitorSensores monitor, String identificador, int rand_num) {
         this.identificador = identificador;
         this.es_anomalo = false;
-        this.num_aleatoreo = num_aleaoreo;
+        this.tipo_destino = rand_num;
     }
 
     public void setIdentificador(String identificador) {
