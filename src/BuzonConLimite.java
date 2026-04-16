@@ -8,4 +8,16 @@ public class BuzonConLimite extends Buzon {
         this.capacidad = capacidad;
     }
 
+    public boolean estaLleno() {
+        return eventos.size() >= capacidad;
+    }
+
+    public void agragarEvento(Evento evento) {
+        eventos.add(evento);
+    }
+
+    public boolean estaVacio() {
+        return eventos.isEmpty();
+    }
+
 }

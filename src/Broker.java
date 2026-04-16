@@ -7,12 +7,16 @@ public class Broker extends Thread {
     public final Anomalos buzonAnomalos;
     public ArrayList<Evento> eventos_normales;
     public ArrayList<Evento> eventos_anomalos;
+    public MonitorNormales monitorNormales;
+    public boolean faltan;
 
-    public Broker(MonitorSensores monitor, Anomalos buzonAnomalos) {
+    public Broker(MonitorSensores monitor, Anomalos buzonAnomalos, MonitorNormales monitorNormales) {
         this.monitor = monitor;
         this.buzonAnomalos = buzonAnomalos;
         this.eventos_normales = new ArrayList<>();
         this.eventos_anomalos = new ArrayList<>();
+        this.monitorNormales = monitorNormales;
+        this.faltan = true;
     }
 
     @Override
@@ -20,12 +24,14 @@ public class Broker extends Thread {
         try {
             while (monitor.consumir(this)) {
                 Thread.yield();
+
             }
         } catch (Exception e) {
             System.err.println("Error en Broker: " + e.getMessage());
             e.printStackTrace();
         } finally {
             buzonAnomalos.finalizarProduccion();
+            monitorNormales.finalizarProduccion();
         }
     }
 
@@ -43,12 +49,14 @@ public class Broker extends Thread {
             buzonAnomalos.producir(evento);
         } else {
             eventos_normales.add(evento);
+            monitorNormales.producir(evento);
         }
 
     }
 
     public synchronized void recibirReevaluado(Evento evento) {
         eventos_normales.add(evento);
+        monitorNormales.producir(evento);
         System.out.println("Broker recibio evento reevaluado: " + evento.identificador);
     }
 

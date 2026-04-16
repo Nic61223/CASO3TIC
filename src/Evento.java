@@ -4,11 +4,13 @@ public class Evento {
     public String identificador;
     public boolean es_anomalo;
     public int tipo_destino;
+    public boolean es_fin;
 
     public Evento(String identificador, int rand_num) {
         this.identificador = identificador;
         this.es_anomalo = false;
         this.tipo_destino = rand_num;
+        this.es_fin = false;
     }
 
     public void setIdentificador(String identificador) {
