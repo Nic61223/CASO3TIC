@@ -1,17 +1,45 @@
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
-        int ni = 4;
-        int num_eventos = 10;
-        int nc = 3;
-        int ns = 3;
-        int tam1 = 10;
-        int tam2 = 20;
+        String ruta = "src/datos.txt";
+        String linea;
+        try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
+            linea = br.readLine();
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+            return;
+        }
 
-        System.out.println("=== Iniciando simulacion Caso 3 ===\n");
+
+        String[] argumentos = linea.split(",");
+        if (argumentos.length < 6) {
+            System.err.println("Formato invalido en datos.txt. Se esperaban 6 valores separados por coma.");
+            return;
+        }
+
+        int ni;
+        int num_eventos;
+        int nc;
+        int ns;
+        int tam1;
+        int tam2;
+        try {
+            ni = Integer.parseInt(argumentos[0]);
+            num_eventos = Integer.parseInt(argumentos[1]);
+            nc = Integer.parseInt(argumentos[2]);
+            ns = Integer.parseInt(argumentos[3]);
+            tam1 = Integer.parseInt(argumentos[4]);
+            tam2 = Integer.parseInt(argumentos[5]);
+        } catch (NumberFormatException e) {
+            System.err.println("Formato numerico invalido en datos.txt: " + e.getMessage());
+            return;
+        }
 
         Buzon buzonEntrada = new BuzonSinLimite();
 
@@ -44,7 +72,6 @@ public class Main {
         ArrayList<Servidores> servidores = new ArrayList<>();
         for (int i = 1; i <= ns; i++) {
             Servidores s = new Servidores(monitorServidores, i);
-            s.setName("Servidor-" + i);
             servidores.add(s);
         }
 
