@@ -23,6 +23,10 @@ public class Evento {
 
     public void setEs_anomalo(boolean es_fin) {
         this.es_anomalo = es_fin;
+
     }
 
+    public int getTipo_destino() {
+        return tipo_destino;
+    }
 }

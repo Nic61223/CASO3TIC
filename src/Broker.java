@@ -28,7 +28,7 @@ public class Broker extends Thread {
             }
         } catch (Exception e) {
             System.err.println("Error en Broker: " + e.getMessage());
-            e.printStackTrace();
+
         } finally {
             buzonAnomalos.finalizarProduccion();
             monitorNormales.finalizarProduccion();

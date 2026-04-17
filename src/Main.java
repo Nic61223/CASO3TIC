@@ -25,7 +25,7 @@ public class Main {
         MonitorSensores monitorSensores = new MonitorSensores(buzonEntrada, ns, totalEventosEsperados);
         Anomalos buzonAnomalos = new Anomalos();
         MonitorNormales monitorNormales = new MonitorNormales(new BuzonConLimite(tam1));
-
+        MonitorServidores monitorServidores = new MonitorServidores(tam2, nc);
         Broker broker = new Broker(monitorSensores, buzonAnomalos, monitorNormales);
         Administrador administrador = new Administrador(buzonAnomalos, broker);
 
@@ -36,13 +36,24 @@ public class Main {
 
         ArrayList<Clasificador> clasificadores = new ArrayList<>();
         for (int i = 1; i <= nc; i++) {
-            Clasificador c = new Clasificador(monitorNormales);
+            Clasificador c = new Clasificador(monitorNormales, monitorServidores);
             c.setName("Clasificador-" + i);
             clasificadores.add(c);
         }
 
+        ArrayList<Servidores> servidores = new ArrayList<>();
+        for (int i = 1; i <= ns; i++) {
+            Servidores s = new Servidores(monitorServidores, i);
+            s.setName("Servidor-" + i);
+            servidores.add(s);
+        }
+
         administrador.start();
         broker.start();
+
+        for (Servidores s : servidores) {
+            s.start();
+        }
 
         for (Clasificador c : clasificadores) {
             c.start();
@@ -64,6 +75,10 @@ public class Main {
 
             for (Clasificador c : clasificadores) {
                 c.join();
+            }
+
+            for (Servidores s : servidores) {
+                s.join();
             }
 
             System.out.println("\n=== Simulacion completada ===");
