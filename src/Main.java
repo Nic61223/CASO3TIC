@@ -108,7 +108,7 @@ public class Main {
                 s.join();
             }
 
-            System.out.println("\n=== Simulacion completada ===");
+            System.out.println("simulación finalizada.\n");
             System.out.println("Eventos inicialmente normales o normalizados: " + broker.eventos_normales.size());
             System.out.println("Eventos detectados inicialmente como anomalos: " + broker.eventos_anomalos.size());
             System.out.println("Anomalias gestionadas por Administrador: " + administrador.totalAnomaliasGestionadas());
